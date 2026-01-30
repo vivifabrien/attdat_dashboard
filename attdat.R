@@ -24,8 +24,91 @@ dat <- read_csv("data/raw_att.csv") %>%
       q004 %in% c(3,4) & country == "NL" ~ 2,          # middle
       q004 > 4 & country == "NL" ~ 3,                        # high
       TRUE ~ NA_real_
-    )
-  )
+    ),
+    q001 = factor(q001,levels = c(1:2), labels = c("Male","Female") ),
+    q002 = factor(q002,levels = c(1:6), labels = c("18-24 years","25-34 years", "35-44 years", "45-54 years", "55-64 years","65+") ),
+    q004 = factor(q004, levels = c(1:3), labels = c("Low","Middle","High")),
+  ) %>%
+  # Label locations
+  mutate(q003 = case_when(
+    # Germany
+    country == "DE" & q003 == 1 ~ "Baden-Württemberg",
+    country == "DE" & q003 == 2 ~ "Bayern",
+    country == "DE" & q003 == 3 ~ "Berlin",
+    country == "DE" & q003 == 4 ~ "Brandenburg",
+    country == "DE" & q003 == 5 ~ "Bremen",
+    country == "DE" & q003 == 6 ~ "Hamburg",
+    country == "DE" & q003 == 7 ~ "Hessen",
+    country == "DE" & q003 == 8 ~ "Mecklenburg-Vorpommern",
+    country == "DE" & q003 == 9 ~ "Niedersachsen",
+    country == "DE" & q003 == 10 ~ "Nordrhein-Westfalen",
+    country == "DE" & q003 == 11 ~ "Rheinland-Pfalz",
+    country == "DE" & q003 == 12 ~ "Saarland",
+    country == "DE" & q003 == 13 ~ "Sachsen",
+    country == "DE" & q003 == 14 ~ "Sachsen-Anhalt",
+    country == "DE" & q003 == 15 ~ "Schleswig-Holstein",
+    country == "DE" & q003 == 16 ~ "Thüringen",
+    country == "DE" & q003 == -9 ~ "Not answered",
+    
+    # Netherlands
+    country == "NL" & q003 == 1 ~ "Groningen",
+    country == "NL" & q003 == 2 ~ "Friesland",
+    country == "NL" & q003 == 3 ~ "Drenthe",
+    country == "NL" & q003 == 4 ~ "Overijssel",
+    country == "NL" & q003 == 5 ~ "Gelderland",
+    country == "NL" & q003 == 6 ~ "Flevoland",
+    country == "NL" & q003 == 7 ~ "Utrecht",
+    country == "NL" & q003 == 8 ~ "Noord-Holland",
+    country == "NL" & q003 == 9 ~ "Zuid-Holland",
+    country == "NL" & q003 == 10 ~ "Zeeland",
+    country == "NL" & q003 == 11 ~ "Noord-Brabant",
+    country == "NL" & q003 == 12 ~ "Limburg",
+    country == "NL" & q003 == -9 ~ "Not answered",
+    
+    # Spain
+    country == "ES" & q003 == 1 ~ "Andalucía",
+    country == "ES" & q003 == 2 ~ "Aragón",
+    country == "ES" & q003 == 3 ~ "Cantabria",
+    country == "ES" & q003 == 4 ~ "Castilla y León",
+    country == "ES" & q003 == 5 ~ "Castilla-La Mancha",
+    country == "ES" & q003 == 6 ~ "Cataluña",
+    country == "ES" & q003 == 7 ~ "Ceuta",
+    country == "ES" & q003 == 8 ~ "Comunidad Foral de Navarra",
+    country == "ES" & q003 == 9 ~ "Comunidad Valenciana",
+    country == "ES" & q003 == 10 ~ "Comunidad de Madrid",
+    country == "ES" & q003 == 11 ~ "Extremadura",
+    country == "ES" & q003 == 12 ~ "Galicia",
+    country == "ES" & q003 == 13 ~ "Islas Baleares",
+    country == "ES" & q003 == 14 ~ "Islas Canarias",
+    country == "ES" & q003 == 15 ~ "La Rioja",
+    country == "ES" & q003 == 16 ~ "Melilla",
+    country == "ES" & q003 == 17 ~ "País Vasco",
+    country == "ES" & q003 == 18 ~ "Principado de Asturias",
+    country == "ES" & q003 == 19 ~ "Región de Murcia",
+    country == "ES" & q003 == -9 ~ "Not answered",
+    
+    # Poland
+    country == "PL" & q003 == 1 ~ "Dolnośląskie",
+    country == "PL" & q003 == 2 ~ "Kujawsko-Pomorskie",
+    country == "PL" & q003 == 3 ~ "Lubelskie",
+    country == "PL" & q003 == 4 ~ "Lubuskie",
+    country == "PL" & q003 == 5 ~ "Łódzkie",
+    country == "PL" & q003 == 6 ~ "Małopolskie",
+    country == "PL" & q003 == 7 ~ "Mazowieckie",
+    country == "PL" & q003 == 8 ~ "Opolskie",
+    country == "PL" & q003 == 9 ~ "Podkarpackie",
+    country == "PL" & q003 == 10 ~ "Podlaskie",
+    country == "PL" & q003 == 11 ~ "Pomorskie",
+    country == "PL" & q003 == 12 ~ "Śląskie",
+    country == "PL" & q003 == 13 ~ "Świętokrzyskie",
+    country == "PL" & q003 == 14 ~ "Warmińsko-Mazurskie",
+    country == "PL" & q003 == 15 ~ "Wielkopolskie",
+    country == "PL" & q003 == 16 ~ "Zachodniopomorskie",
+    country == "PL" & q003 == -9 ~ "Not answered",
+    
+    TRUE ~ NA_character_
+  ))
+
 
 
 demographics <- create_content(data = dat, type = "bar") %>%
