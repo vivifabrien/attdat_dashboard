@@ -1,0 +1,425 @@
+---
+title: "{{< iconify ph chart-bar >}} Analysis"
+format: html
+---
+
+```{r}
+#| include: false
+library(dashboardr)
+```
+
+```{=html}
+<style>
+/* Ensure chart containers expand to fit content - aggressive overrides */
+.cell-output-display,
+.cell-output,
+.panel-tabset-tabby > .tab-content,
+.panel-tabset > .tab-content,
+.tab-pane,
+.tab-pane.active,
+.card-body,
+.quarto-figure,
+section {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+/* Ensure highcharts containers respect their set height */
+.highcharts-container,
+.html-widget,
+.htmlwidget {
+  overflow: visible !important;
+}
+</style>
+<script>
+// Aggressive reflow for Highcharts - multiple attempts to catch widget initialization
+(function() {
+  function reflowCharts() {
+    if (typeof Highcharts !== 'undefined' && Highcharts.charts) {
+      Highcharts.charts.forEach(function(chart) {
+        if (chart) {
+          try { chart.reflow(); } catch(e) {}
+        }
+      });
+    }
+  }
+  
+  // Try multiple times at different intervals
+  [0, 100, 250, 500, 1000, 2000].forEach(function(delay) {
+    setTimeout(function() {
+      window.dispatchEvent(new Event('resize'));
+      requestAnimationFrame(reflowCharts);
+    }, delay);
+  });
+  
+  // Also reflow on any tab click
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.nav-link, [data-bs-toggle="tab"]')) {
+      setTimeout(reflowCharts, 50);
+    }
+  });
+})();
+</script>
+```
+
+```{r setup}
+#| echo: false
+#| warning: false
+#| message: false
+#| error: false
+#| results: 'hide'
+
+# Load required libraries
+library(dashboardr)
+library(dplyr)
+library(highcharter)
+
+# Global chunk options
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  error = FALSE,
+  fig.width = 12,
+  fig.height = 8,
+  dpi = 300
+)
+
+# Load data
+data <- readRDS('dataset_large_8674obs.rds')
+
+# Data summary
+cat('Dataset loaded:', nrow(data), 'rows,', ncol(data), 'columns\n')
+
+# Create filtered datasets
+# Each filter is applied once and reused across visualizations
+
+# Helper: convert haven_labelled columns to factors for filtering
+.convert_haven <- function(df) {
+  if (requireNamespace('haven', quietly = TRUE)) {
+    for (col in names(df)) {
+      if (inherits(df[[col]], 'haven_labelled')) {
+        df[[col]] <- haven::as_factor(df[[col]])
+      }
+    }
+  }
+  df
+}
+
+data_filtered_7a2890a3 <- .convert_haven(data) %>% dplyr::filter(country == "DE")
+data_filtered_c4fa1a8d <- .convert_haven(data) %>% dplyr::filter(country == "NL")
+data_filtered_74ed31ac <- .convert_haven(data) %>% dplyr::filter(country == "ES")
+data_filtered_d4a98b5c <- .convert_haven(data) %>% dplyr::filter(country == "PL")
+
+```
+
+
+This is a very preliminary visualization of our data yippie.
+
+
+::: {.panel-tabset}
+
+### Demographics
+
+
+::: {.panel-tabset}
+
+##### Gender
+
+
+::: {.panel-tabset}
+
+###### Germany
+
+```{r demographics-gender}
+# Germany
+result <- viz_bar(
+  data = data_filtered_7a2890a3,
+  title = "Germany",
+  x_var = "q001"
+)
+
+result
+```
+
+
+###### Netherlands
+
+```{r demographics-gender-2}
+# Netherlands
+result <- viz_bar(
+  data = data_filtered_c4fa1a8d,
+  title = "Netherlands",
+  x_var = "q001"
+)
+
+result
+```
+
+
+###### Spain
+
+```{r demographics-gender-3}
+# Spain
+result <- viz_bar(
+  data = data_filtered_74ed31ac,
+  title = "Spain",
+  x_var = "q001"
+)
+
+result
+```
+
+
+###### Poland
+
+```{r demographics-gender-4}
+# Poland
+result <- viz_bar(
+  data = data_filtered_d4a98b5c,
+  title = "Poland",
+  x_var = "q001"
+)
+
+result
+```
+
+
+:::
+
+
+##### Age
+
+
+::: {.panel-tabset}
+
+###### Germany
+
+```{r demographics-age}
+# Germany
+result <- viz_bar(
+  data = data_filtered_7a2890a3,
+  title = "Germany",
+  x_var = "q002"
+)
+
+result
+```
+
+
+###### Netherlands
+
+```{r demographics-age-2}
+# Netherlands
+result <- viz_bar(
+  data = data_filtered_c4fa1a8d,
+  title = "Netherlands",
+  x_var = "q002"
+)
+
+result
+```
+
+
+###### Spain
+
+```{r demographics-age-3}
+# Spain
+result <- viz_bar(
+  data = data_filtered_74ed31ac,
+  title = "Spain",
+  x_var = "q002"
+)
+
+result
+```
+
+
+###### Poland
+
+```{r demographics-age-4}
+# Poland
+result <- viz_bar(
+  data = data_filtered_d4a98b5c,
+  title = "Poland",
+  x_var = "q002"
+)
+
+result
+```
+
+
+:::
+
+
+##### State
+
+
+::: {.panel-tabset}
+
+###### Germany
+
+```{r demographics-state}
+# Germany
+result <- viz_bar(
+  data = data_filtered_7a2890a3,
+  title = "Germany",
+  x_var = "q003"
+)
+
+result
+```
+
+
+###### Netherlands
+
+```{r demographics-state-2}
+# Netherlands
+result <- viz_bar(
+  data = data_filtered_c4fa1a8d,
+  title = "Netherlands",
+  x_var = "q003"
+)
+
+result
+```
+
+
+###### Spain
+
+```{r demographics-state-3}
+# Spain
+result <- viz_bar(
+  data = data_filtered_74ed31ac,
+  title = "Spain",
+  x_var = "q003"
+)
+
+result
+```
+
+
+###### Poland
+
+```{r demographics-state-4}
+# Poland
+result <- viz_bar(
+  data = data_filtered_d4a98b5c,
+  title = "Poland",
+  x_var = "q003"
+)
+
+result
+```
+
+
+:::
+
+
+##### Education
+
+
+::: {.panel-tabset}
+
+###### Germany
+
+```{r demographics-education}
+# Germany
+result <- viz_bar(
+  data = data_filtered_7a2890a3,
+  title = "Germany",
+  x_var = "q004_recoded"
+)
+
+result
+```
+
+
+###### Netherlands
+
+```{r demographics-education-2}
+# Netherlands
+result <- viz_bar(
+  data = data_filtered_c4fa1a8d,
+  title = "Netherlands",
+  x_var = "q004_recoded"
+)
+
+result
+```
+
+
+###### Spain
+
+```{r demographics-education-3}
+# Spain
+result <- viz_bar(
+  data = data_filtered_74ed31ac,
+  title = "Spain",
+  x_var = "q004_recoded"
+)
+
+result
+```
+
+
+###### Poland
+
+```{r demographics-education-4}
+# Poland
+result <- viz_bar(
+  data = data_filtered_d4a98b5c,
+  title = "Poland",
+  x_var = "q004_recoded"
+)
+
+result
+```
+
+
+:::
+
+
+:::
+
+
+### Attitudes
+
+
+::: {.panel-tabset}
+
+##### Gen-AI Use
+
+```{r attitudes}
+# Gen-AI Use
+result <- viz_stackedbar(
+  data = data,
+  title = "Gen-AI Use",
+  x_var = "ad03",
+  stack_var = "country"
+)
+
+result
+```
+
+
+##### Left-Right Attitude
+
+```{r attitudes-2}
+# Left-Right Attitude
+result <- viz_stackedbar(
+  data = data,
+  title = "Left-Right Attitude",
+  x_var = "g112_01",
+  stack_var = "country"
+)
+
+result
+```
+
+
+:::
+
+
+:::
+
