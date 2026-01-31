@@ -27,7 +27,7 @@ dat <- read_csv("data/raw_att.csv") %>%
     ),
     q001 = factor(q001,levels = c(1:2), labels = c("Male","Female") ),
     q002 = factor(q002,levels = c(1:6), labels = c("18-24 years","25-34 years", "35-44 years", "45-54 years", "55-64 years","65+") ),
-    q004 = factor(q004, levels = c(1:3), labels = c("Low","Middle","High")),
+    q004_recoded = factor(q004_recoded, levels = c(1:3), labels = c("Low","Middle","High")),
   ) %>%
   # Label locations
   mutate(q003 = case_when(
@@ -107,32 +107,35 @@ dat <- read_csv("data/raw_att.csv") %>%
     country == "PL" & q003 == -9 ~ "Not answered",
     
     TRUE ~ NA_character_
-  ))
+  )) %>%
+  mutate(ad03 = factor(ad03, levels = c(1:5),labels = c("Not at all useful", "Slightly useful","Moderately useful","Very useful","Extremely useful")))
+  
 
 
 
 demographics <- create_content(data = dat, type = "bar") %>%
   add_text("This is a very preliminary visualization of our data yippie.") %>%
-  add_viz(x_var = "q001", title = "Germany", tabgroup = "Demographics/Gender", filter = ~ country == "DE") %>%
-  add_viz(x_var = "q001", title = "Netherlands", tabgroup = "Demographics/Gender", filter = ~ country == "NL") %>%
-  add_viz(x_var = "q001", title = "Spain", tabgroup = "Demographics/Gender", filter = ~ country == "ES") %>%
-  add_viz(x_var = "q001", title = "Poland", tabgroup = "Demographics/Gender", filter = ~ country == "PL") %>%
-  add_viz(x_var = "q002", title = "Germany", tabgroup = "Demographics/Age", , filter = ~ country == "DE") %>%
-  add_viz(x_var = "q002", title = "Netherlands", tabgroup = "Demographics/Age", , filter = ~ country == "NL") %>%
-  add_viz(x_var = "q002", title = "Spain", tabgroup = "Demographics/Age", , filter = ~ country == "ES") %>%
-  add_viz(x_var = "q002", title = "Poland", tabgroup = "Demographics/Age", , filter = ~ country == "PL") %>%
-  add_viz(x_var = "q003", title = "Germany", tabgroup = "Demographics/State", filter = ~ country == "DE") %>%
-  add_viz(x_var = "q003", title = "Netherlands", tabgroup = "Demographics/State", filter = ~ country == "NL") %>%
-  add_viz(x_var = "q003", title = "Spain", tabgroup = "Demographics/State", filter = ~ country == "ES") %>%
-  add_viz(x_var = "q003", title = "Poland", tabgroup = "Demographics/State", filter = ~ country == "PL") %>%
-  add_viz(x_var = "q004_recoded", title = "Germany", tabgroup = "Demographics/Education", filter = ~ country == "DE") %>%
-  add_viz(x_var = "q004_recoded", title = "Netherlands", tabgroup = "Demographics/Education", filter = ~ country == "NL") %>%
-  add_viz(x_var = "q004_recoded", title = "Spain", tabgroup = "Demographics/Education", filter = ~ country == "ES") %>%
-  add_viz(x_var = "q004_recoded", title = "Poland", tabgroup = "Demographics/Education", filter = ~ country == "PL")
+  add_viz(x_var = "q001", title = "Germany", tabgroup = "Demographics/Gender", filter = ~ country == "DE", x_label = "Gender") %>%
+  add_viz(x_var = "q001", title = "Netherlands", tabgroup = "Demographics/Gender", filter = ~ country == "NL", x_label = "Gender") %>%
+  add_viz(x_var = "q001", title = "Spain", tabgroup = "Demographics/Gender", filter = ~ country == "ES", x_label = "Gender") %>%
+  add_viz(x_var = "q001", title = "Poland", tabgroup = "Demographics/Gender", filter = ~ country == "PL", x_label = "Gender") %>%
+  add_viz(x_var = "q002", title = "Germany", tabgroup = "Demographics/Age", , filter = ~ country == "DE", x_label = "Age") %>%
+  add_viz(x_var = "q002", title = "Netherlands", tabgroup = "Demographics/Age", , filter = ~ country == "NL", x_label = "Age") %>%
+  add_viz(x_var = "q002", title = "Spain", tabgroup = "Demographics/Age", , filter = ~ country == "ES", x_label = "Age") %>%
+  add_viz(x_var = "q002", title = "Poland", tabgroup = "Demographics/Age", , filter = ~ country == "PL", x_label = "Age") %>%
+  add_viz(x_var = "q003", title = "Germany", tabgroup = "Demographics/State", filter = ~ country == "DE", x_label = "State") %>%
+  add_viz(x_var = "q003", title = "Netherlands", tabgroup = "Demographics/State", filter = ~ country == "NL", x_label = "State") %>%
+  add_viz(x_var = "q003", title = "Spain", tabgroup = "Demographics/State", filter = ~ country == "ES", x_label = "State") %>%
+  add_viz(x_var = "q003", title = "Poland", tabgroup = "Demographics/State", filter = ~ country == "PL", x_label = "State") %>%
+  add_viz(x_var = "q004_recoded", title = "Germany", tabgroup = "Demographics/Education", filter = ~ country == "DE", x_label = "Education") %>%
+  add_viz(x_var = "q004_recoded", title = "Netherlands", tabgroup = "Demographics/Education", filter = ~ country == "NL", x_label = "Education") %>%
+  add_viz(x_var = "q004_recoded", title = "Spain", tabgroup = "Demographics/Education", filter = ~ country == "ES", x_label = "Education") %>%
+  add_viz(x_var = "q004_recoded", title = "Poland", tabgroup = "Demographics/Education", filter = ~ country == "PL", x_label = "Education")
 
 print(demographics)
 preview(demographics)
 
+#Attitudes
 attitudes <- create_content(data = dat, type = "stackedbar") %>%
   add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes") %>%
   add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes")

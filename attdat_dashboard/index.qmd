@@ -136,7 +136,8 @@ This is a very preliminary visualization of our data yippie.
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
-  x_var = "q001"
+  x_var = "q001",
+  x_label = "Gender"
 )
 
 result
@@ -150,7 +151,8 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
-  x_var = "q001"
+  x_var = "q001",
+  x_label = "Gender"
 )
 
 result
@@ -164,7 +166,8 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
-  x_var = "q001"
+  x_var = "q001",
+  x_label = "Gender"
 )
 
 result
@@ -178,7 +181,8 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
-  x_var = "q001"
+  x_var = "q001",
+  x_label = "Gender"
 )
 
 result
@@ -200,7 +204,8 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
-  x_var = "q002"
+  x_var = "q002",
+  x_label = "Age"
 )
 
 result
@@ -214,7 +219,8 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
-  x_var = "q002"
+  x_var = "q002",
+  x_label = "Age"
 )
 
 result
@@ -228,7 +234,8 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
-  x_var = "q002"
+  x_var = "q002",
+  x_label = "Age"
 )
 
 result
@@ -242,7 +249,8 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
-  x_var = "q002"
+  x_var = "q002",
+  x_label = "Age"
 )
 
 result
@@ -264,7 +272,8 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
-  x_var = "q003"
+  x_var = "q003",
+  x_label = "State"
 )
 
 result
@@ -278,7 +287,8 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
-  x_var = "q003"
+  x_var = "q003",
+  x_label = "State"
 )
 
 result
@@ -292,7 +302,8 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
-  x_var = "q003"
+  x_var = "q003",
+  x_label = "State"
 )
 
 result
@@ -306,7 +317,8 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
-  x_var = "q003"
+  x_var = "q003",
+  x_label = "State"
 )
 
 result
@@ -328,7 +340,8 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
-  x_var = "q004_recoded"
+  x_var = "q004_recoded",
+  x_label = "Education"
 )
 
 result
@@ -342,7 +355,8 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
-  x_var = "q004_recoded"
+  x_var = "q004_recoded",
+  x_label = "Education"
 )
 
 result
@@ -356,7 +370,8 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
-  x_var = "q004_recoded"
+  x_var = "q004_recoded",
+  x_label = "Education"
 )
 
 result
@@ -370,7 +385,8 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
-  x_var = "q004_recoded"
+  x_var = "q004_recoded",
+  x_label = "Education"
 )
 
 result
