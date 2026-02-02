@@ -139,12 +139,12 @@ preview(demographics)
 
 #Attitudes
 attitudes <- create_content(data = dat, type = "stackedbar", tooltip_suffix = "%") %>%
-  add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes", stacked_type = "percent",
+  add_viz(x_var = "country", stack_var = "ad03", title = "Gen-AI Use", tabgroup = "Attitudes", stacked_type = "percent",
           tooltip_suffix = "%",
-          color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")) %>%
-  add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes", 
+          color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4")) %>%
+  add_viz(x_var= "country", stack_var = "g112_01", title = "Left-Right Attitude", tabgroup = "Attitudes", 
           stacked_type = "percent", tooltip_suffix = "%",
-          color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598"))
+          color_palette = c("darkred","#d7191c", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#2b93ba", "#2b73ba","#2b53ba"))
 
 
 

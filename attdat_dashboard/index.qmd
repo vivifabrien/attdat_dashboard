@@ -696,10 +696,10 @@ result <- viz_stackedbar(
   data = data,
   title = "Gen-AI Use",
   tooltip_suffix = "%",
-  x_var = "ad03",
-  stack_var = "country",
+  x_var = "country",
+  stack_var = "ad03",
   stacked_type = "percent",
-  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4")
 )
 
 # Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
@@ -735,10 +735,11 @@ result <- viz_stackedbar(
   data = data,
   title = "Left-Right Attitude",
   tooltip_suffix = "%",
-  x_var = "g112_01",
-  stack_var = "country",
+  x_var = "country",
+  stack_var = "g112_01",
   stacked_type = "percent",
-  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")
+  stack_label = "Left-Right Position",
+  color_palette = c("darkred", "#d7191c", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#2b93ba", "#2b73ba", "#2b53ba")
 )
 
 # Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
