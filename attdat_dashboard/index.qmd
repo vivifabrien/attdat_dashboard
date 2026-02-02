@@ -68,6 +68,7 @@ This is a very preliminary visualization of our data yippie.
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q001",
   x_label = "Gender"
 )
@@ -104,6 +105,7 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q001",
   x_label = "Gender"
 )
@@ -140,6 +142,7 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q001",
   x_label = "Gender"
 )
@@ -176,6 +179,7 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q001",
   x_label = "Gender"
 )
@@ -220,6 +224,7 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q002",
   x_label = "Age"
 )
@@ -256,6 +261,7 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q002",
   x_label = "Age"
 )
@@ -292,6 +298,7 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q002",
   x_label = "Age"
 )
@@ -328,6 +335,7 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q002",
   x_label = "Age"
 )
@@ -372,6 +380,7 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q003",
   x_label = "State"
 )
@@ -408,6 +417,7 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q003",
   x_label = "State"
 )
@@ -444,6 +454,7 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q003",
   x_label = "State"
 )
@@ -480,6 +491,7 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q003",
   x_label = "State"
 )
@@ -524,6 +536,7 @@ result
 result <- viz_bar(
   data = data_filtered_7a2890a3,
   title = "Germany",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q004_recoded",
   x_label = "Education"
 )
@@ -560,6 +573,7 @@ result
 result <- viz_bar(
   data = data_filtered_c4fa1a8d,
   title = "Netherlands",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q004_recoded",
   x_label = "Education"
 )
@@ -596,6 +610,7 @@ result
 result <- viz_bar(
   data = data_filtered_74ed31ac,
   title = "Spain",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q004_recoded",
   x_label = "Education"
 )
@@ -632,6 +647,7 @@ result
 result <- viz_bar(
   data = data_filtered_d4a98b5c,
   title = "Poland",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba"),
   x_var = "q004_recoded",
   x_label = "Education"
 )
@@ -679,9 +695,11 @@ result
 result <- viz_stackedbar(
   data = data,
   title = "Gen-AI Use",
+  tooltip_suffix = "%",
   x_var = "ad03",
   stack_var = "country",
-  stacked_type = "percent"
+  stacked_type = "percent",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")
 )
 
 # Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
@@ -716,9 +734,11 @@ result
 result <- viz_stackedbar(
   data = data,
   title = "Left-Right Attitude",
+  tooltip_suffix = "%",
   x_var = "g112_01",
   stack_var = "country",
-  stacked_type = "percent"
+  stacked_type = "percent",
+  color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")
 )
 
 # Extract cross-tab data BEFORE wrapping (wrapping strips attributes)

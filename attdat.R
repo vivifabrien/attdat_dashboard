@@ -115,7 +115,7 @@ dat <- read_csv("data/raw_att.csv") %>%
 
 
 
-demographics <- create_content(data = dat, type = "bar") %>%
+demographics <- create_content(data = dat, type = "bar", color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598", "#abdda4", "#66c2a5", "#2b83ba")) %>%
   add_text("This is a very preliminary visualization of our data yippie.") %>%
   add_viz(x_var = "q001", title = "Germany", tabgroup = "Demographics/Gender", filter = ~ country == "DE", x_label = "Gender") %>%
   add_viz(x_var = "q001", title = "Netherlands", tabgroup = "Demographics/Gender", filter = ~ country == "NL", x_label = "Gender") %>%
@@ -138,9 +138,13 @@ print(demographics)
 preview(demographics)
 
 #Attitudes
-attitudes <- create_content(data = dat, type = "stackedbar") %>%
-  add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes", stacked_type = "percent") %>%
-  add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes", stacked_type = "percent")
+attitudes <- create_content(data = dat, type = "stackedbar", tooltip_suffix = "%") %>%
+  add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes", stacked_type = "percent",
+          tooltip_suffix = "%",
+          color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598")) %>%
+  add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes", 
+          stacked_type = "percent", tooltip_suffix = "%",
+          color_palette = c("#d7191c", "#fdae61", "#fee08b", "#e6f598"))
 
 
 
@@ -158,7 +162,7 @@ my_dashboard <- create_dashboard(
   title = "Data Explorer", 
   output_dir = "attdat_dashboard", 
   publish_dir = "../docs", 
-  theme = "flatly"
+  theme = "minty"
 ) %>%
   add_pages(analysis, about)
 # Generate!
