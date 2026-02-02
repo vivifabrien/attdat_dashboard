@@ -1,3 +1,5 @@
+#devtools::install_github("favstats/dashboardr")
+
 pacman::p_load(dashboardr, tidyverse)
 
 # Read data
@@ -137,8 +139,8 @@ preview(demographics)
 
 #Attitudes
 attitudes <- create_content(data = dat, type = "stackedbar") %>%
-  add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes") %>%
-  add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes")
+  add_viz(x_var = "ad03", stack_var = country, title = "Gen-AI Use", tabgroup = "Attitudes", stacked_type = "percent") %>%
+  add_viz(x_var= "g112_01", stack_var = country, title = "Left-Right Attitude", tabgroup = "Attitudes", stacked_type = "percent")
 
 
 

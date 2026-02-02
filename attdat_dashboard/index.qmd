@@ -3,63 +3,9 @@ title: "{{< iconify ph chart-bar >}} Analysis"
 format: html
 ---
 
-```{r}
-#| include: false
-library(dashboardr)
-```
-
-```{=html}
-<style>
-/* Ensure chart containers expand to fit content - aggressive overrides */
-.cell-output-display,
-.cell-output,
-.panel-tabset-tabby > .tab-content,
-.panel-tabset > .tab-content,
-.tab-pane,
-.tab-pane.active,
-.card-body,
-.quarto-figure,
-section {
-  overflow: visible !important;
-  height: auto !important;
-  max-height: none !important;
-}
-/* Ensure highcharts containers respect their set height */
-.highcharts-container,
-.html-widget,
-.htmlwidget {
-  overflow: visible !important;
-}
-</style>
-<script>
-// Aggressive reflow for Highcharts - multiple attempts to catch widget initialization
-(function() {
-  function reflowCharts() {
-    if (typeof Highcharts !== 'undefined' && Highcharts.charts) {
-      Highcharts.charts.forEach(function(chart) {
-        if (chart) {
-          try { chart.reflow(); } catch(e) {}
-        }
-      });
-    }
-  }
-  
-  // Try multiple times at different intervals
-  [0, 100, 250, 500, 1000, 2000].forEach(function(delay) {
-    setTimeout(function() {
-      window.dispatchEvent(new Event('resize'));
-      requestAnimationFrame(reflowCharts);
-    }, delay);
-  });
-  
-  // Also reflow on any tab click
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('.nav-link, [data-bs-toggle="tab"]')) {
-      setTimeout(reflowCharts, 50);
-    }
-  });
-})();
-</script>
+```{r, include=FALSE}
+# Initialize dashboardr page configuration (CSS/JS for charts)
+dashboardr:::.page_config()
 ```
 
 ```{r setup}
@@ -69,10 +15,8 @@ section {
 #| error: false
 #| results: 'hide'
 
-# Load required libraries
+# Load dashboardr (includes dplyr, highcharter as dependencies)
 library(dashboardr)
-library(dplyr)
-library(highcharter)
 
 # Global chunk options
 knitr::opts_chunk$set(
@@ -94,22 +38,10 @@ cat('Dataset loaded:', nrow(data), 'rows,', ncol(data), 'columns\n')
 # Create filtered datasets
 # Each filter is applied once and reused across visualizations
 
-# Helper: convert haven_labelled columns to factors for filtering
-.convert_haven <- function(df) {
-  if (requireNamespace('haven', quietly = TRUE)) {
-    for (col in names(df)) {
-      if (inherits(df[[col]], 'haven_labelled')) {
-        df[[col]] <- haven::as_factor(df[[col]])
-      }
-    }
-  }
-  df
-}
-
-data_filtered_7a2890a3 <- .convert_haven(data) %>% dplyr::filter(country == "DE")
-data_filtered_c4fa1a8d <- .convert_haven(data) %>% dplyr::filter(country == "NL")
-data_filtered_74ed31ac <- .convert_haven(data) %>% dplyr::filter(country == "ES")
-data_filtered_d4a98b5c <- .convert_haven(data) %>% dplyr::filter(country == "PL")
+data_filtered_7a2890a3 <- dashboardr:::.convert_haven(data) %>% dplyr::filter(country == "DE")
+data_filtered_c4fa1a8d <- dashboardr:::.convert_haven(data) %>% dplyr::filter(country == "NL")
+data_filtered_74ed31ac <- dashboardr:::.convert_haven(data) %>% dplyr::filter(country == "ES")
+data_filtered_d4a98b5c <- dashboardr:::.convert_haven(data) %>% dplyr::filter(country == "PL")
 
 ```
 
@@ -140,6 +72,27 @@ result <- viz_bar(
   x_label = "Gender"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -154,6 +107,27 @@ result <- viz_bar(
   x_var = "q001",
   x_label = "Gender"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -170,6 +144,27 @@ result <- viz_bar(
   x_label = "Gender"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -184,6 +179,27 @@ result <- viz_bar(
   x_var = "q001",
   x_label = "Gender"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -208,6 +224,27 @@ result <- viz_bar(
   x_label = "Age"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -222,6 +259,27 @@ result <- viz_bar(
   x_var = "q002",
   x_label = "Age"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -238,6 +296,27 @@ result <- viz_bar(
   x_label = "Age"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -252,6 +331,27 @@ result <- viz_bar(
   x_var = "q002",
   x_label = "Age"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -276,6 +376,27 @@ result <- viz_bar(
   x_label = "State"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -290,6 +411,27 @@ result <- viz_bar(
   x_var = "q003",
   x_label = "State"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -306,6 +448,27 @@ result <- viz_bar(
   x_label = "State"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -320,6 +483,27 @@ result <- viz_bar(
   x_var = "q003",
   x_label = "State"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -344,6 +528,27 @@ result <- viz_bar(
   x_label = "Education"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -358,6 +563,27 @@ result <- viz_bar(
   x_var = "q004_recoded",
   x_label = "Education"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -374,6 +600,27 @@ result <- viz_bar(
   x_label = "Education"
 )
 
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
+
 result
 ```
 
@@ -388,6 +635,27 @@ result <- viz_bar(
   x_var = "q004_recoded",
   x_label = "Education"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -412,8 +680,30 @@ result <- viz_stackedbar(
   data = data,
   title = "Gen-AI Use",
   x_var = "ad03",
-  stack_var = "country"
+  stack_var = "country",
+  stacked_type = "percent"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```
@@ -427,8 +717,30 @@ result <- viz_stackedbar(
   data = data,
   title = "Left-Right Attitude",
   x_var = "g112_01",
-  stack_var = "country"
+  stack_var = "country",
+  stacked_type = "percent"
 )
+
+# Extract cross-tab data BEFORE wrapping (wrapping strips attributes)
+cross_tab_data <- attr(result, 'cross_tab_data')
+cross_tab_config <- attr(result, 'cross_tab_config')
+cross_tab_id <- attr(result, 'cross_tab_id')
+
+# Embed cross-tab data for client-side filtering
+if (!is.null(cross_tab_data)) {
+  cross_tab_json <- jsonlite::toJSON(cross_tab_data, dataframe = 'rows')
+  config_json <- jsonlite::toJSON(cross_tab_config, auto_unbox = TRUE)
+  script_tag <- htmltools::tags$script(
+    htmltools::HTML(paste0(
+      'window.dashboardrCrossTab = window.dashboardrCrossTab || {};',
+      'window.dashboardrCrossTab["', cross_tab_id, '"] = {',
+      'data: ', cross_tab_json, ',',
+      'config: ', config_json,
+      '};'
+    ))
+  )
+  result <- htmltools::tagList(script_tag, result)
+}
 
 result
 ```

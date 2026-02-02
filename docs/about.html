@@ -39,7 +39,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-c705a46b45f9d92437758c9fe34e10cc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6b4b9f3c4fdb469b7cc8bfeb2ad76a39.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/iconify-3.0.0/iconify-icon.min.js"></script>
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -71,91 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&amp;family=Fira+Code:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
-<script>
-(function() {
-  document.addEventListener('DOMContentLoaded', function() {
-    // Prevent tab clicks from causing page jumps
-    document.querySelectorAll('.panel-tabset [role="tab"], .panel-tabset .nav-link').forEach(function(tab) {
-      tab.addEventListener('click', function(e) {
-        // Only handle actual Bootstrap tabs, not regular anchor links
-        // Tabs have role='tab' or data-bs-toggle='tab'
-        var isActualTab = this.getAttribute('role') === 'tab' || 
-                          this.getAttribute('data-bs-toggle') === 'tab' ||
-                          this.getAttribute('aria-controls');
-        if (!isActualTab) {
-          // This is a regular anchor link - let it work normally
-          return;
-        }
-        
-        var targetId = this.getAttribute('data-bs-target') || this.getAttribute('href');
-        if (!targetId || !targetId.startsWith('#')) {
-          return;
-        }
-        
-        // Save current scroll position
-        var scrollX = window.scrollX || window.pageXOffset;
-        var scrollY = window.scrollY || window.pageYOffset;
-        
-        // Prevent default hash navigation (only for tab links)
-        e.preventDefault();
-        
-        // Manually trigger Bootstrap tab (without hash change)
-        if (targetId && targetId.startsWith('#')) {
-          // Activate tab using Bootstrap's API if available
-          if (typeof bootstrap !== 'undefined' && bootstrap.Tab) {
-            var bsTab = new bootstrap.Tab(this);
-            bsTab.show();
-          } else {
-            // Fallback: manual tab switching
-            var tabset = this.closest('.panel-tabset');
-            if (tabset) {
-              // Deactivate all tabs and panes
-              tabset.querySelectorAll('[role="tab"]').forEach(function(t) {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-              });
-              tabset.querySelectorAll('.tab-pane').forEach(function(p) {
-                p.classList.remove('show', 'active');
-              });
-              // Activate clicked tab and its pane
-              this.classList.add('active');
-              this.setAttribute('aria-selected', 'true');
-              var pane = document.querySelector(targetId);
-              if (pane) {
-                pane.classList.add('show', 'active');
-              }
-            }
-          }
-        }
-        
-        // Focus without scrolling
-        try {
-          this.focus({ preventScroll: true });
-        } catch(err) {
-          this.focus();
-        }
-        
-        // Restore scroll position after a brief delay
-        requestAnimationFrame(function() {
-          window.scrollTo(scrollX, scrollY);
-          // Double-check after any animations
-          setTimeout(function() {
-            window.scrollTo(scrollX, scrollY);
-          }, 50);
-        });
-      }, { capture: true });
-    });
-    
-    // Also handle Bootstrap's shown.bs.tab event to prevent post-switch jumps
-    document.querySelectorAll('.panel-tabset').forEach(function(tabset) {
-      tabset.addEventListener('shown.bs.tab', function(e) {
-        // Prevent any scroll adjustment after tab is shown
-        e.stopPropagation();
-      });
-    });
-  });
-})();
-</script>
+<script src="assets/tab-scroll-fix.js"></script>
 
 
 <link rel="stylesheet" href="assets/modal.css">
@@ -223,57 +139,6 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<style>
-/* Ensure chart containers expand to fit content - aggressive overrides */
-.cell-output-display,
-.cell-output,
-.panel-tabset-tabby > .tab-content,
-.panel-tabset > .tab-content,
-.tab-pane,
-.tab-pane.active,
-.card-body,
-.quarto-figure,
-section {
-  overflow: visible !important;
-  height: auto !important;
-  max-height: none !important;
-}
-/* Ensure highcharts containers respect their set height */
-.highcharts-container,
-.html-widget,
-.htmlwidget {
-  overflow: visible !important;
-}
-</style>
-<script>
-// Aggressive reflow for Highcharts - multiple attempts to catch widget initialization
-(function() {
-  function reflowCharts() {
-    if (typeof Highcharts !== 'undefined' && Highcharts.charts) {
-      Highcharts.charts.forEach(function(chart) {
-        if (chart) {
-          try { chart.reflow(); } catch(e) {}
-        }
-      });
-    }
-  }
-  
-  // Try multiple times at different intervals
-  [0, 100, 250, 500, 1000, 2000].forEach(function(delay) {
-    setTimeout(function() {
-      window.dispatchEvent(new Event('resize'));
-      requestAnimationFrame(reflowCharts);
-    }, delay);
-  });
-  
-  // Also reflow on any tab click
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('.nav-link, [data-bs-toggle="tab"]')) {
-      setTimeout(reflowCharts, 50);
-    }
-  });
-})();
-</script>
 <section id="about" class="level2">
 <h2 class="anchored" data-anchor-id="about">About</h2>
 <p>Built with <a href="https://github.com/favstats/dashboardr">dashboardr</a></p>

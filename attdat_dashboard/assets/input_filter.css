@@ -5,6 +5,33 @@
  */
 
 /* ============================================
+   FONT - Override Choices.js CDN styles to use dashboard theme font
+   ============================================ */
+.choices,
+.choices *,
+.choices__inner,
+.choices__list,
+.choices__list--dropdown,
+.choices__list--single,
+.choices__list--multiple,
+.choices__item,
+.choices__placeholder,
+.choices__input,
+.choices__button,
+.choices [class*="choices"] {
+  font-family: inherit !important;
+}
+
+/* Ensure sidebar inputs inherit font */
+.sidebar input,
+.sidebar select,
+.sidebar label,
+.sidebar .choices,
+.sidebar .choices * {
+  font-family: inherit !important;
+}
+
+/* ============================================
    INPUT ROW LAYOUT
    ============================================ */
 
@@ -664,7 +691,119 @@
 .dashboardr-checkbox-group.inline {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px 16px;
+}
+
+/* Stacked layout: checkbox above label */
+.dashboardr-checkbox-group.stacked {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 16px 24px !important;
+  width: 100% !important;
+}
+
+/* Stacked with grid layout (ncol/nrow specified) */
+.dashboardr-checkbox-group.stacked.stacked-grid {
+  display: grid !important;
+  gap: 16px 24px !important;
+  width: 100% !important;
+  justify-items: center !important;
+}
+
+/* Group alignment for stacked checkboxes */
+.dashboardr-checkbox-group.stacked.group-left {
+  justify-content: flex-start !important;
+}
+.dashboardr-checkbox-group.stacked.group-center {
+  justify-content: center !important;
+}
+.dashboardr-checkbox-group.stacked.group-right {
+  justify-content: flex-end !important;
+}
+
+.dashboardr-checkbox-group.stacked .dashboardr-checkbox {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  text-align: center !important;
+}
+
+.dashboardr-checkbox-group.stacked .dashboardr-checkbox-mark {
+  order: 1 !important;
+}
+
+.dashboardr-checkbox-group.stacked .dashboardr-checkbox-text {
+  order: 2 !important;
+  font-size: 12px !important;
+  max-width: 100px !important;
+  word-wrap: break-word !important;
+  line-height: 1.3 !important;
+  text-align: center !important;
+}
+
+/* Stacked alignment variants */
+.dashboardr-checkbox-group.stacked.align-left .dashboardr-checkbox {
+  align-items: flex-start !important;
+}
+.dashboardr-checkbox-group.stacked.align-left .dashboardr-checkbox-text {
+  text-align: left !important;
+}
+
+.dashboardr-checkbox-group.stacked.align-center .dashboardr-checkbox {
+  align-items: center !important;
+}
+.dashboardr-checkbox-group.stacked.align-center .dashboardr-checkbox-text {
+  text-align: center !important;
+}
+
+.dashboardr-checkbox-group.stacked.align-right .dashboardr-checkbox {
+  align-items: flex-end !important;
+}
+.dashboardr-checkbox-group.stacked.align-right .dashboardr-checkbox-text {
+  text-align: right !important;
+}
+
+/* Grid layouts for checkbox groups */
+.dashboardr-checkbox-group.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+}
+
+.dashboardr-checkbox-group.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 12px;
+}
+
+.dashboardr-checkbox-group.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px 12px;
+}
+
+/* Compact text for grid layouts */
+.dashboardr-checkbox-group[class*="grid-"] .dashboardr-checkbox-text {
+  font-size: 13px;
+}
+
+/* Responsive: collapse to fewer columns on narrow containers */
+@media (max-width: 400px) {
+  .dashboardr-checkbox-group.grid-3,
+  .dashboardr-checkbox-group.grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 280px) {
+  .dashboardr-checkbox-group.grid-2,
+  .dashboardr-checkbox-group.grid-3,
+  .dashboardr-checkbox-group.grid-4 {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dashboardr-checkbox {
@@ -752,7 +891,103 @@
 .dashboardr-radio-group.inline {
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px 16px;
+}
+
+/* Stacked layout: dot above label */
+.dashboardr-radio-group.stacked {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 16px 24px !important;
+  width: 100% !important;
+}
+
+/* Stacked with grid layout (ncol/nrow specified) */
+.dashboardr-radio-group.stacked.stacked-grid {
+  display: grid !important;
+  gap: 16px 24px !important;
+  width: 100% !important;
+  justify-items: center !important;
+}
+
+/* Group alignment for stacked radio buttons */
+.dashboardr-radio-group.stacked.group-left {
+  justify-content: flex-start !important;
+}
+.dashboardr-radio-group.stacked.group-center {
+  justify-content: center !important;
+}
+.dashboardr-radio-group.stacked.group-right {
+  justify-content: flex-end !important;
+}
+
+.dashboardr-radio-group.stacked .dashboardr-radio {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 6px !important;
+  text-align: center !important;
+}
+
+.dashboardr-radio-group.stacked .dashboardr-radio-mark {
+  order: 1 !important;
+}
+
+.dashboardr-radio-group.stacked .dashboardr-radio-text {
+  order: 2 !important;
+  font-size: 12px !important;
+  max-width: 100px !important;
+  word-wrap: break-word !important;
+  line-height: 1.3 !important;
+  text-align: center !important;
+}
+
+/* Stacked alignment variants */
+.dashboardr-radio-group.stacked.align-left .dashboardr-radio {
+  align-items: flex-start !important;
+}
+.dashboardr-radio-group.stacked.align-left .dashboardr-radio-text {
+  text-align: left !important;
+}
+
+.dashboardr-radio-group.stacked.align-center .dashboardr-radio {
+  align-items: center !important;
+}
+.dashboardr-radio-group.stacked.align-center .dashboardr-radio-text {
+  text-align: center !important;
+}
+
+.dashboardr-radio-group.stacked.align-right .dashboardr-radio {
+  align-items: flex-end !important;
+}
+.dashboardr-radio-group.stacked.align-right .dashboardr-radio-text {
+  text-align: right !important;
+}
+
+/* Grid layouts for radio groups */
+.dashboardr-radio-group.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+}
+
+.dashboardr-radio-group.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 12px;
+}
+
+.dashboardr-radio-group.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px 12px;
+}
+
+/* Compact text for grid layouts */
+.dashboardr-radio-group[class*="grid-"] .dashboardr-radio-text {
+  font-size: 13px;
 }
 
 .dashboardr-radio {
@@ -1004,6 +1239,38 @@
   width: auto;
   min-width: auto;
   max-width: none;
+}
+
+/* But stacked groups in sidebar need full width for centering */
+.sidebar .dashboardr-input-group:has(.dashboardr-checkbox-group.stacked),
+.sidebar .dashboardr-input-group:has(.dashboardr-radio-group.stacked) {
+  width: 100% !important;
+}
+
+/* ============================================
+   SIDEBAR-SPECIFIC INPUT FIXES
+   ============================================ */
+
+/* Ensure inputs fit within sidebar */
+.sidebar .dashboardr-input-group,
+.sidebar .dashboardr-checkbox-group,
+.sidebar .dashboardr-radio-group {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+/* Sidebar inline groups should wrap nicely */
+.sidebar .dashboardr-checkbox-group.inline,
+.sidebar .dashboardr-radio-group.inline {
+  max-width: 100%;
+}
+
+/* Radio/checkbox text in sidebar shouldn't overflow */
+.sidebar .dashboardr-radio-text,
+.sidebar .dashboardr-checkbox-text {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Switch container auto width and vertical centering */
